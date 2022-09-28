@@ -2,9 +2,11 @@ package org.example;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.TilePane;
 import org.example.config.AppConfig;
 import org.example.models.FIleInfo;
 
@@ -17,7 +19,10 @@ public class DownloadManager {
 
     @FXML
     private TextField urlInput;
+
     public int index = 0;
+
+
     @FXML
     void downloadButtonClicked(ActionEvent event) {
         String url = this.urlInput.getText().trim();
@@ -25,16 +30,17 @@ public class DownloadManager {
         String status = "STARTING";
         String action = "OPEN";
         String path = AppConfig.DOWNLOAD_URL+ File.separator + filename;
-        FIleInfo file = new FIleInfo((index+1+""), filename, url, status, action, path);
+        FIleInfo file = new FIleInfo(((index+1)+""), filename, url, status, action, path);
+        this.index = this.index + 1;
 
         DownloadThread thread = new DownloadThread(file, this);
-        this.tableView.getItems().setAll(file);
+        this.tableView.getItems().add(Integer.parseInt(file.getIndex())-1, file);
         thread.start();
+        this.urlInput.setText("");
     }
 
     @FXML
     public void initialize(){
-        System.out.println("view initialized");
         TableColumn<FIleInfo, String> sn = (TableColumn<FIleInfo, String>) this.tableView.getColumns().get(0);
         sn.setCellValueFactory(p->{
             return p.getValue().indexProperty();
@@ -63,6 +69,10 @@ public class DownloadManager {
 
     public void updateUI(FIleInfo metafile) {
         System.out.println(metafile);
+        FIleInfo fileInfo = this.tableView.getItems().get(Integer.parseInt(metafile.getIndex())-1);
+        fileInfo.setStatus(metafile.getStatus());
+        this.tableView.refresh();
+
         System.out.println("-------------------------------------------------------------------");
         System.out.println("");
     }

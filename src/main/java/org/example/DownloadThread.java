@@ -1,5 +1,6 @@
 package org.example;
 
+import javafx.scene.control.Alert;
 import org.example.models.FIleInfo;
 
 import java.io.IOException;
@@ -26,9 +27,8 @@ public class DownloadThread extends Thread{
             this.file.setStatus("DONE");
         } catch (IOException e) {
             this.file.setStatus("FAILED");
-            System.out.println("Download error");
+            this.file.setError(e.getClass().getSimpleName());
             e.printStackTrace();
-            throw new RuntimeException(e);
         }
         this.manager.updateUI(this.file);
 

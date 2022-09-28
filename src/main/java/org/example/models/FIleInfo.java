@@ -10,6 +10,8 @@ public class FIleInfo {
     private SimpleStringProperty actions = new SimpleStringProperty();
     private SimpleStringProperty path = new SimpleStringProperty();
 
+    private String error;
+
     public FIleInfo(String index, String filename, String url, String status, String actions, String path) {
         this.index.set(index);
         this.filename.set(filename);
@@ -100,6 +102,15 @@ public class FIleInfo {
                 ", status=" + status +
                 ", actions=" + actions +
                 ", path=" + path +
+                ", error='" + error + '\'' +
                 '}';
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
     }
 }
