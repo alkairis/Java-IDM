@@ -2,6 +2,7 @@ package org.example;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -25,6 +26,7 @@ public class DownloadManager {
         String url = this.urlInput.getText().trim();
         if(url.isEmpty()){
             System.out.println("URL is empty.");
+            this.showAlert("Please fill the url", Alert.AlertType.WARNING);
             return;
         }
         String filename = url.substring(url.lastIndexOf("/")+1);
@@ -38,6 +40,7 @@ public class DownloadManager {
         this.tableView.getItems().add(Integer.parseInt(file.getIndex())-1, file);
         thread.start();
         this.urlInput.setText("");
+        System.out.println(file.getStatus());
     }
 
     @FXML
@@ -73,8 +76,11 @@ public class DownloadManager {
         FIleInfo fileInfo = this.tableView.getItems().get(Integer.parseInt(metafile.getIndex())-1);
         fileInfo.setStatus(metafile.getStatus());
         this.tableView.refresh();
+    }
 
-        System.out.println("-------------------------------------------------------------------");
-        System.out.println("");
+    public void showAlert(String alertMessage, Alert.AlertType type) {
+        Alert alert = new Alert(type);
+        alert.setContentText(alertMessage);
+        alert.show();
     }
 }

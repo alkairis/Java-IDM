@@ -28,7 +28,6 @@ public class DownloadThread extends Thread{
         } catch (IOException e) {
             this.file.setStatus("FAILED");
             this.file.setError(e.getClass().getSimpleName());
-            e.printStackTrace();
         }
         this.manager.updateUI(this.file);
 
