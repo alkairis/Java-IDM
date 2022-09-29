@@ -2,14 +2,11 @@ package org.example;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.TilePane;
 import org.example.config.AppConfig;
 import org.example.models.FIleInfo;
-
 import java.io.File;
 
 public class DownloadManager {
@@ -26,6 +23,10 @@ public class DownloadManager {
     @FXML
     void downloadButtonClicked(ActionEvent event) {
         String url = this.urlInput.getText().trim();
+        if(url.isEmpty()){
+            System.out.println("URL is empty.");
+            return;
+        }
         String filename = url.substring(url.lastIndexOf("/")+1);
         String status = "STARTING";
         String action = "OPEN";
